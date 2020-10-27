@@ -6,9 +6,9 @@ import { render } from "@testing-library/react";
 function App() {
   // tag　를 존재 하지 않게 하기위한 React.Fragment도 있다.
 const inputtext =
-<React.Fragment> <label> bar </label>
+<div> <label> bar </label>
 <input type="text" onClick= { ()=> {console.log("I am clicked.")}   }/>
-</React.Fragment>;
+</div>;
 
 const greeting = "hello";
 const dom = <h1>
