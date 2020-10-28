@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 //import './App.css';
 
-import { render } from "@testing-library/react";
+//import { render } from "@testing-library/react";
 
 const App = () => {
 const profiles = [
@@ -33,4 +33,4 @@ User.defaultProps = {
     age: 1
 }
 
-export default App;
+//export default App;
