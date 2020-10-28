@@ -30,7 +30,6 @@ ReactDOM.render(
         <Route exact path="/"component={App} />
       </Switch>
     </BrowserRouter>
-    {/* <App /> */}
   </Provider>,
   document.getElementById('root')
 
