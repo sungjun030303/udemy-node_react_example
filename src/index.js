@@ -9,9 +9,14 @@ import './index.css';
 
 import reducer from './reducers'
 import App from './components/event_index';
+import eventNew from './components/event_new'
+
 //import registerServiceWorker from './registerServiceWorker';
 
 import thunk from 'redux-thunk'
+import { BrowserRouter, Route,Switch} from 'react-router-dom'
+
+
 
 import reportWebVitals from './reportWebVitals';
 const store = createStore( reducer , applyMiddleware(thunk) )
@@ -19,7 +24,13 @@ const store = createStore( reducer , applyMiddleware(thunk) )
 
 ReactDOM.render(
   <Provider store ={store} >
-    <App />
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/events/new"component={eventNew} />
+        <Route exact path="/"component={App} />
+      </Switch>
+    </BrowserRouter>
+    {/* <App /> */}
   </Provider>,
   document.getElementById('root')
 

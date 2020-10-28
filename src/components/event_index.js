@@ -1,6 +1,10 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom'
+
+
+
 import { readEvents ,increment,decrement} from '../actions'
 import _ from 'lodash';
 
@@ -57,6 +61,7 @@ class EventIndex extends Component {
 
           </tbody>
         </table>
+        <Link to="events/new">New Event </Link>
       </div>
     </React.Fragment> 
     );
