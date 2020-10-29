@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 
-import { getEvnet, deleteEvent } from '../actions'
+import { getEvent, deleteEvent ,putEvent } from '../actions'
 import _ from 'lodash';
+//import event_new from './event_new';
 
 class EventsShow extends Component {
 
@@ -17,7 +18,9 @@ constructor( props ) {
 }
   //
   componentDidMount() {
-    //빈 화면이라 없음.
+    
+    const { id } = this.props.match.params
+    if (id) this.props.getEvent(id)
   }
 
  renderField( field) {
@@ -30,8 +33,11 @@ constructor( props ) {
     </div>)
  }  
 
-async onSubmit(values) {
-  await this.props.postEvents(values)
+async onSubmit( values ) {
+
+  console.log(values)
+
+  await this.props.putEvent( values )
   this.props.history.push('/')
 }
 
@@ -46,14 +52,14 @@ async onDeleteClick() {
 
 
   render() {
-    const { handleSubmit , pristine , submitting } = this.props
+    const { handleSubmit , pristine , submitting , invalid} = this.props
     //const props = this.props
     console.log(submitting)
     return (
       <form onSubmit={handleSubmit( this.onSubmit )}>
         <div><Field label="Title" name="title" type="text" component={this.renderField} /></div>
         <div><Field label="Body" name="body" type="text" component={this.renderField} /></div>
-        <div><input type="submit" value="update" disabled={ pristine || submitting} />
+        <div><input type="submit" value="submit" disabled={ pristine || submitting || invalid} />
         <Link to="/">Cancle</Link>
         <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
         </div>
@@ -62,11 +68,12 @@ async onDeleteClick() {
   }
 }
 
-// const mapStateToProps = state =>({ 
-//    events : state.events
-// })
+const mapStateToProps = (state, ownProps) => {
+  const event = state.events[ownProps.match.params.id]
+  return { initialValues: event, event }
+}
 
-const mapDispatchToProps = ({ deleteEvent })
+const mapDispatchToProps = ({ deleteEvent , getEvent, putEvent })
 
 const validate = values => {
   const errors = {}
@@ -77,6 +84,6 @@ const validate = values => {
   return errors
 }
 
-export default connect(  null,mapDispatchToProps )(
-  reduxForm({ validate, form: 'eventShowForm' })(EventsShow)
+export default connect(  mapStateToProps ,mapDispatchToProps )(
+  reduxForm({ validate, form: 'eventShowForm' ,enableReinitialize:true})(EventsShow)
 )
