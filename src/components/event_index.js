@@ -3,13 +3,24 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom'
 
-
-
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import { readEvents ,increment,decrement} from '../actions'
 import _ from 'lodash';
 
 //const App = () => (<App></App>);
 //이런식의 연습을 하였으나 리듀스 리덕스를 사용하면 다음과 같이 된다.
+
+
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+
 
 class EventIndex extends Component {
   //
@@ -23,45 +34,53 @@ class EventIndex extends Component {
 
   renderEvents() {
     return _.map( this.props.events , event =>(
-      <tr key={event.id}>
-        <td>{event.id}</td>
-        <td><Link to={`/events/${event.id}`}>{event.title}</Link></td>
-        <td>{event.body}</td>
-      </tr>
+      <TableRow key={event.id}>
+        <TableRowColumn>{event.id}</TableRowColumn>
+        <TableRowColumn><Link to={`/events/${event.id}`}>{event.title}</Link></TableRowColumn>
+        <TableRowColumn>{event.body}</TableRowColumn>
+      </TableRow>
     ))
   }
 
   render() {
     const props = this.props
 
+    const style = {
+      position: "fixed",
+      right:12,
+      bottom:12
+    };
     return ( 
     <React.Fragment>
     <div> value: {  props.value} </div> 
     <button onClick={ props.increment }>+1</button>
     <button onClick={ props.decrement }>-1</button>
       <div> 첫 부분 내비둠 ㅋㅋ</div>
-
+    
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>
+        <Table >
+          <TableHeader displaySelectAll={false}>
+            <TableRow>
+              <TableHeaderColumn>
                 ID
-              </th>
-              <th>
+              </TableHeaderColumn>
+              <TableHeaderColumn>
                 Title
-              </th>
-              <th>
+              </TableHeaderColumn>
+              <TableHeaderColumn>
                 Body
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
             {this.renderEvents()}
 
-          </tbody>
-        </table>
-        <Link to="events/new">New Event </Link>
+          </TableBody>
+        </Table>
+        <FloatingActionButton style={style} containerElement={<Link to="events/new"></Link>}> 
+        <ContentAdd />
+        </FloatingActionButton>
+        {/* <Link to="events/new">New Event </Link> */}
       </div>
     </React.Fragment> 
     );

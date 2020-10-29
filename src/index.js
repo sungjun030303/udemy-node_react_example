@@ -19,6 +19,9 @@ import { BrowserRouter, Route,Switch} from 'react-router-dom'
 
 import { composeWithDevTools } from 'redux-devtools-extension'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
 import reportWebVitals from './reportWebVitals';
 
 const enhancer = process.env.NODE_ENV === 'development' ?
@@ -28,6 +31,7 @@ const enhancer = process.env.NODE_ENV === 'development' ?
 const store = createStore( reducer , enhancer )
 
 ReactDOM.render(
+  <MuiThemeProvider>
   <Provider store ={store} >
     <BrowserRouter>
       <Switch>
@@ -37,7 +41,8 @@ ReactDOM.render(
         <Route exact path="/events"component={App} />
       </Switch>
     </BrowserRouter>
-  </Provider>,
+  </Provider>
+  </MuiThemeProvider>,
   document.getElementById('root')
 
   // <React.StrictMode>
