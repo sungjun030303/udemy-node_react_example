@@ -8,6 +8,9 @@ import { getEvent, deleteEvent ,putEvent } from '../actions'
 import _ from 'lodash';
 //import event_new from './event_new';
 
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
 class EventsShow extends Component {
 
 constructor( props ) {
@@ -27,10 +30,20 @@ constructor( props ) {
     const { input, label, type,meta: { touched, error } } = field
 
     return (
-    <div> 
-      <input {...input} placeholder={label} type={type}/>    
-    { touched && error && <span> { error } </span> }
-    </div>)
+      <TextField
+      hintText="Hint Text" 
+      floatingLabelText={label}
+      type={type}
+      errorText={touched && error }
+      {...input}
+      fullWidth={true}
+      />
+    // <div> 
+    //   <input {...input} placeholder={label} type={type}/>    
+    // { touched && error && <span> { error } </span> }
+    // </div>
+    
+    )
  }  
 
 async onSubmit( values ) {
@@ -52,6 +65,10 @@ async onDeleteClick() {
 
 
   render() {
+    const style = {
+      margin: 12,
+    };
+
     const { handleSubmit , pristine , submitting , invalid} = this.props
     //const props = this.props
     console.log(submitting)
@@ -59,9 +76,13 @@ async onDeleteClick() {
       <form onSubmit={handleSubmit( this.onSubmit )}>
         <div><Field label="Title" name="title" type="text" component={this.renderField} /></div>
         <div><Field label="Body" name="body" type="text" component={this.renderField} /></div>
-        <div><input type="submit" value="submit" disabled={ pristine || submitting || invalid} />
+        <div>
+        <RaisedButton label="submit" style={style} type="submit" disabled={ pristine || submitting || invalid} />
+        <RaisedButton label="Cancle" style={style} containerElement={<Link to="/"></Link>} />
+        <RaisedButton label="Delete" style={style} onClick={this.onDeleteClick} />
+        {/* <div><input type="submit" value="submit" disabled={ pristine || submitting || invalid} />
         <Link to="/">Cancle</Link>
-        <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
+        <Link to="/" onClick={this.onDeleteClick}>Delete</Link> */}
         </div>
       </form>
     )
