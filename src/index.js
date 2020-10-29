@@ -10,24 +10,31 @@ import './index.css';
 import reducer from './reducers'
 import App from './components/event_index';
 import eventNew from './components/event_new'
+import eventShow from './components/event_show'
 
 //import registerServiceWorker from './registerServiceWorker';
 
 import thunk from 'redux-thunk'
 import { BrowserRouter, Route,Switch} from 'react-router-dom'
 
-
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import reportWebVitals from './reportWebVitals';
-const store = createStore( reducer , applyMiddleware(thunk) )
 
+const enhancer = process.env.NODE_ENV === 'development' ?
+  composeWithDevTools( applyMiddleware(thunk)  ):applyMiddleware(thunk)
+
+//const store = createStore( reducer , applyMiddleware(thunk) )
+const store = createStore( reducer , enhancer )
 
 ReactDOM.render(
   <Provider store ={store} >
     <BrowserRouter>
       <Switch>
-        <Route exact path="/events/new"component={eventNew} />
+        <Route path="/events/new"component={eventNew} />
+        <Route path="/events/:id"component={eventShow} />
         <Route exact path="/"component={App} />
+        <Route exact path="/events"component={App} />
       </Switch>
     </BrowserRouter>
   </Provider>,
